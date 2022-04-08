@@ -35,6 +35,20 @@ public struct VisionClient {
         
         return try JSONDecoder().decode(Responses.self, from: response!)
     }
+    
+    /// Dispatches a request to read the text in a passed image.
+    public func textDetection(url: URL) async throws -> Responses {
+        let image = Image(ImageSource(imageUri: url.absoluteString))
+        let annotateImageRequest = [AnnotateImageRequest(image: image, features: [.init(type: .textDetection)])]
+        
+        let request = GoogleRequest(requests: annotateImageRequest)
+        
+        let body = try self.encoder.encode(request)
+        
+        let response = try await AsyncHTTPRequest(URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(self.apiKey)")!, data: body)
+        
+        return try JSONDecoder().decode(Responses.self, from: response!)
+    }
 }
 
 /// The root of the JSON sent to Google

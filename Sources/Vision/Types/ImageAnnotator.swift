@@ -56,9 +56,21 @@ struct Features: Encodable {
 struct Image: Encodable {
     
     /// The base64 encoded string of the image.
-    let content: String
+    let content: String?
+    
+    let source: ImageSource?
     
     public init(_ data: Data) {
         self.content = data.base64EncodedString()
+        self.source = nil
     }
+    
+    public init(_ source: ImageSource) {
+        self.content = nil
+        self.source = source
+    }
+}
+
+struct ImageSource: Encodable {
+    let imageUri: String
 }
