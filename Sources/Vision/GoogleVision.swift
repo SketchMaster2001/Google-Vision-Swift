@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Main class to interact with the Google Vision API
 public struct VisionClient {
     // MARK: Properties
     
@@ -22,7 +23,7 @@ public struct VisionClient {
     }
     
     /// Dispatches a request to read the text in a passed image.
-    func textDetection(image: Data) async throws {
+    public func textDetection(image: Data) async throws -> Responses {
         let image = Image(image)
         let annotateImageRequest = [AnnotateImageRequest(image: image, features: [.init(type: .textDetection)])]
         
@@ -30,7 +31,9 @@ public struct VisionClient {
         
         let body = try self.encoder.encode(request)
         
-        try await AsyncHTTPRequest(URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(self.apiKey)")!, data: body)
+        let response = try await AsyncHTTPRequest(URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(self.apiKey)")!, data: body)
+        
+        return try JSONDecoder().decode(Responses.self, from: response!)
     }
 }
 

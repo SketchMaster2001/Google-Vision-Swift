@@ -9,7 +9,7 @@ import Foundation
 
 
 /// `Vertex` represents a 2D point in the image.
-struct Vertex: Decodable {
+public struct Vertex: Decodable {
     // MARK: Properties
     
     /// X coordinate.
