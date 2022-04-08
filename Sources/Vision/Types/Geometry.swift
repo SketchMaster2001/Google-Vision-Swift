@@ -13,13 +13,13 @@ public struct Vertex: Decodable {
     // MARK: Properties
     
     /// X coordinate.
-    let x: Int?
+    public let x: Int?
     
     /// Y coordinate.
-    let y: Int?
+    public let y: Int?
     
     // MARK: Methods
-    func toCGPoint() -> CGPoint {
+    public func toCGPoint() -> CGPoint {
         return CGPoint(x: x ?? 0, y: y ?? 0)
     }
 }
